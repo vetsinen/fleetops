@@ -2,13 +2,21 @@
 
 namespace Webdev\Fleetops;
 
-class BusVehicle extends AbstractVehicle {
-    public $name = 'Bus';
-    public $maxPassengersCount = 32;
-    public $maxTripDistance = 200;
-    public $maxBaggageWeight = 300;
-    public $fuelConsumptionPer100km = 20;
+class BusVehicle{
+    private $name = 'Bus';
+    private $maxPassengersCount = 32;
+    private $maxTripDistance = 200;
+    private $maxBaggageWeight = 300;
+    private $fuelConsumptionPer100km = 20;
 
-    public $depreciationCoefficient = 2;
+    public function getDepreciationCoefficient()
+    {
+        return 2;
+    }
+    public function validateTrip($passangers, $baggageWeight, $routeLength)
+    {
+        if ($passangers > $this->maxPassengersCount || $baggageWeight>$this->maxBaggageWeight || $routeLength> $this->maxTripDistance) return false;
+        return true;
+    }
 
 }
