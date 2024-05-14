@@ -2,26 +2,23 @@
 
 namespace Webdev\Fleetops;
 
-class TripCostCalculator {
+class TripCostCalculator
+{
     private $vehicle;
-    public function __construct(Vehicle $vehicle) {
+    private $driver;
+    private $fuelPrice = 15;
+
+    public function __construct(AbstractVehicle $vehicle, RegularDriver $driver)
+    {
         $this->vehicle = $vehicle;
+        $this->driver = $driver;
     }
 
-    public function calculateTripCost($passengerCount, $baggageWeight, $routeLength) {
-        $driverSalary = $this->calculateDriverSalary($routeLength);
-        $fuelCost = $this->calculateFuelCost($routeLength);
+    public function calculateTripCost($passengerCount, $baggageWeight, $routeLength)
+    {
+        $driverSalary = $this->driver->calculateSalary($routeLength);
+        $fuelCost = $this->fuelPrice*$routeLength;
         $totalCost = $driverSalary + ($fuelCost * $this->vehicle->depreciationCoefficient);
         return $totalCost;
-    }
-
-    private function calculateDriverSalary($routeLength) {
-        $driverCategoryCoefficient = 1.5; // Example coefficient
-        $kilometerRate = 5; // Example kilometer rate
-        return 3 * $kilometerRate * $driverCategoryCoefficient;
-    }
-
-    private function calculateFuelCost($routeLength) {
-        // Fuel cost calculation logic
     }
 }
